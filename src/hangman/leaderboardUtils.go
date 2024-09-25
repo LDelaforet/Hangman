@@ -12,19 +12,19 @@ import (
 func readLeaderBoard() []LeaderboardEntry {
 	scores := []LeaderboardEntry{}
 
-	if FileExists("leaderboard.txt") {
-		if IsFileEmpty("leaderboard.txt") {
-			if FileExists("leaderboard.txt.bak") {
-				CopyFile("leaderboard.txt.bak", "leaderboard.txt")
+	if FileExists(LeaderboardFileName + ".bak") {
+		if IsFileEmpty(LeaderboardFileName) {
+			if FileExists(LeaderboardFileName + ".bak") {
+				CopyFile(LeaderboardFileName+".bak", LeaderboardFileName)
 			} else {
-				WriteFile("leaderboard.txt", "a: 0")
+				WriteFile(LeaderboardFileName, "a: 0")
 			}
 		}
 	} else {
-		WriteFile("leaderboard.txt", "a: 0")
+		WriteFile(LeaderboardFileName, "a: 0")
 	}
 
-	fileContent, err := ReadFile("leaderboard.txt")
+	fileContent, err := ReadFile(LeaderboardFileName)
 	if err != nil {
 		panic(err)
 	}
@@ -53,7 +53,7 @@ func readLeaderBoard() []LeaderboardEntry {
 
 func AddToLeaderboard(name string, score int) {
 	// Fais un backup de leaderboard.txt
-	CopyFile("leaderboard.txt", "leaderboard.txt.bak")
+	CopyFile(LeaderboardFileName, LeaderboardFileName+".bak")
 
 	scores := readLeaderBoard()
 	scores = append(scores, LeaderboardEntry{name: name, score: score})
@@ -63,7 +63,7 @@ func AddToLeaderboard(name string, score int) {
 	}
 	// Enleve les deux derniers caractères pour éviter le \n de fin
 	scoreFileContent = scoreFileContent[:len(scoreFileContent)-1]
-	WriteFile("leaderboard.txt", scoreFileContent)
+	WriteFile(LeaderboardFileName, scoreFileContent)
 }
 
 // Fonction pour trier les scores

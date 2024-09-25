@@ -20,7 +20,8 @@ var totalLives int  // Nombre total de vies perdues
 var totalTimer int  // Temps total passé à jouer
 
 // Initialise toutes les valeurs de base
-func MainProgram() {
+func MainProgram(filename string) {
+	*FileNamePtr = filename
 	VarInit()
 	initASCII()
 	MainLoop()

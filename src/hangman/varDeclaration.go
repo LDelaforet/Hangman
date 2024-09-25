@@ -3,6 +3,7 @@ package hangman
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 // Détermine si le mode debug est activé
@@ -41,6 +42,14 @@ var TriesPtr = &Tries
 var Score int
 var ScorePtr = &Score
 
+// Nom du fichier contenant les mots
+var FileName string
+var FileNamePtr = &FileName
+
+// Leaderboard filename
+var LeaderboardFileName string
+var LeaderBoardFileNamePtr = &LeaderboardFileName
+
 type LeaderboardEntry struct {
 	name  string
 	score int
@@ -51,12 +60,12 @@ func VarInit() {
 	wordListInit()
 	AsciiArtsInit()
 	*RemainingLivesPtr = 9
+	*LeaderBoardFileNamePtr = "leaderboard_" + strings.Split(FileName, ".txt")[0] + ".txt"
 }
 
 // Lis le fichier containant les mots et les ajoute à la liste
 func wordListInit() {
-	ReadFile("words.txt")
-	wordListFile, err := ReadFile("words.txt")
+	wordListFile, err := ReadFile(*FileNamePtr)
 	if err != nil {
 		panic(err)
 	}
