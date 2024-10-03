@@ -7,12 +7,29 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"time"
 
 	tsize "github.com/kopoli/go-terminal-size"
 )
 
 func initASCII() {
 	VarInit()
+}
+
+func DisplayMenuAnimation() {
+	startAnimNumber := 0
+	// Cherche le + grand nombre de startAnim_ pour déterminer le nombre de frames
+	fmt.Println(ASCIIToCenter(ASCIIArts["startAnim_0"]))
+	time.Sleep(256_000_000 * time.Nanosecond)
+	ClearScreen()
+	for key := range ASCIIArts {
+		if strings.Contains(key, "startAnim_") {
+			startAnimNumber++
+			fmt.Println(ASCIIToCenter(ASCIIArts["startAnim_"+strconv.Itoa(startAnimNumber-1)]))
+			time.Sleep(512_000_000 * time.Nanosecond)
+			ClearScreen()
+		}
+	}
 }
 
 func DisplayMainMenu() {
@@ -27,6 +44,9 @@ func DisplayMainMenu() {
 
 func ToCenter(s string) string {
 	width, _ := GetSize()
+	if (width-len(s))/2 < 0 {
+		return s
+	}
 	return strings.Repeat(" ", (width-len(s))/2) + s
 }
 

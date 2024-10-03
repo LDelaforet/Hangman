@@ -52,7 +52,7 @@ func MainLoop() {
 				}
 				if chx == "3" {
 					DisplayLeaderBoard()
-					fmt.Print("Appuyez sur entrée pour continuer.")
+					fmt.Print(ToCenter("Appuyez sur entrée pour continuer."))
 					GetInput()
 				}
 				if chx == "1" {

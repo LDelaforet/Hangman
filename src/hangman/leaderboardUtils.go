@@ -12,7 +12,7 @@ import (
 func readLeaderBoard() []LeaderboardEntry {
 	scores := []LeaderboardEntry{}
 
-	if FileExists(LeaderboardFileName + ".bak") {
+	if FileExists(LeaderboardFileName) {
 		if IsFileEmpty(LeaderboardFileName) {
 			if FileExists(LeaderboardFileName + ".bak") {
 				CopyFile(LeaderboardFileName+".bak", LeaderboardFileName)
@@ -35,6 +35,17 @@ func readLeaderBoard() []LeaderboardEntry {
 		}
 		// Split la ligne en deux
 		split := strings.Split(line, ": ")
+		if len(split) != 2 {
+			if DebugMode {
+				fmt.Print("Split: ")
+				fmt.Println(split)
+				panic("Split length is not 2")
+			} else {
+				continue
+			}
+		}
+
+		// Converti le score en int
 		score, err := strconv.Atoi(split[1])
 		// Si on est en mode debug on va panic pour régler le pb sinon osef on skip tant pis
 		if err != nil {
